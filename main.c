@@ -20,10 +20,16 @@
 #include "notify_wrap.h"
 #include "pam_auth.h"
 
-int main ( int argc, char argv [] ) 
+//TODO: usar getopt, -u usuario, -c clave
+int main ( int argc, char * argv [] ) 
 {
-    char const * const usuario  = "alumno";
-    char const * const clave    = "alumno";
+    char const * usuario  = "alumno";
+    char const * clave    = "alumno";
+
+    if ( argc == 3 ) {
+        usuario = argv[1];
+        clave   = argv[2];
+    }
 
     if ( PAM_SUCCESS == pam_auth_user_pass (usuario, clave) )
     {
