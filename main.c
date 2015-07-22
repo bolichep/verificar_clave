@@ -22,12 +22,12 @@
 
 int main ( int argc, char argv [] ) 
 {
-    char const * const usuario  = "alumno";
-    char const * const clave    = "alumno";
+    char const * const usuario  = "dani";
+    char const * const clave    = "fg851la";
 
     if ( PAM_SUCCESS == pam_auth_user_pass (usuario, clave) )
     {
-        notify_wrap_show ("Huayra", "Debe cambiar la clave", NULL);
+        notify_wrap_show ("Huayra", "Debe cambiar la clave", "gtk-dialog-warning");
     }
 }
 /* vim: set ts=4 sw=4 tw=80 et :*/
