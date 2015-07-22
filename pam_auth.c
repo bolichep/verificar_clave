@@ -1,5 +1,5 @@
 /*
-	Copyright (C) 2014 Daniel T. Borelli
+	Copyright (C) 2015 Daniel T. Borelli
 
 	This file is part of verificar_clave.
 
