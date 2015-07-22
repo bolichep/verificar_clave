@@ -19,7 +19,7 @@ Soporta los siguientes parámetros para solapar los valores por defecto:
 Ej.
 
 ```bash
-validar_clave -u pepe -c fg851la
+verificar_clave -u pepe -c fg851la
 ```
 En caso que el usuario *pepe* utilice la clave *fg851la* se mostrará un
 mensaje de alerta, en caso contrario no se mostrará ningún mensaje.
