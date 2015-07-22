@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Verificar Clave por Defecto
+Comment=Verifica si la clave por defecto de Huayra se ha cambiado.
+Exec=/usr/bin/verificar_clave -u alumno -c alumno
+Terminal=false
+Type=Application
+Categories=
