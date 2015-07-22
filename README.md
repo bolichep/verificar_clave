@@ -27,8 +27,15 @@ Ej.
 ```bash
 verificar_clave -u pepe -c fg851la
 ```
+
 En caso que el usuario *pepe* utilice la clave *fg851la* se mostrará un
 mensaje de alerta, en caso contrario no se mostrará ningún mensaje.
+
+Cualquier usuario:
+
+```bash
+verificar_clave -u $(whoami) -c fg851la
+```
 
 
 ### Compilar:
