@@ -7,7 +7,9 @@ notificado en el escritorio.
 ## Compilar:
 ```bash
 cmake -DCMAKE_BUILD_TYPE=Release . && make
-```bash
+```
+
+
 
 ## Instalar:
 Se instalan dos archivos, ```verificar_clave``` en ```/usr/bin``` y el archivo
@@ -15,7 +17,8 @@ Se instalan dos archivos, ```verificar_clave``` en ```/usr/bin``` y el archivo
 
 ```bash
 make install
-```bash
+
+
 
 
 ## Depencencias:
