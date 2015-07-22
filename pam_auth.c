@@ -38,12 +38,10 @@ int pam_auth_user_pass (char const * const user, char const * const pass)
     if ( (retval = pam_start ("login", user, &pamc, &pamh) ) == PAM_SUCCESS)
     {
         retval = pam_authenticate (pamh, 0);
-        pam_end (pamh, 0); 
-
-        return retval; 
     }
 
-    LOG ("Fallo inicio de pam_start"); 
+    LOG ( pam_strerror (pamh, retval) );
+    pam_end (pamh, 0); 
     return retval;
 }
 
