@@ -13,6 +13,7 @@ Por defecto verifica el usuario ```alumno``` y la clave de usuario ```alumno```
 Soporta los siguientes parámetros para solapar los valores por defecto:
 
 ```-u``` para indicar el nombre de **usuario**.
+
 ```-c``` para indicar la **clave** de usuario.
 
 Ej.
