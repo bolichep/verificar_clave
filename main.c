@@ -24,26 +24,42 @@
 
 extern char * optarg;
 
+typedef struct Opciones {
+    char * usuario;
+    char * clave;
+    char * mensaje;
+    char * titulo;
+} Opciones;
+
 // Soporta:
 // -u para usuario 
 // -c para clave
-static void opciones (int argc, char* argv [], 
-        char const ** usuario, char const ** clave)
+// -m mensaje
+// -t titulo del mensaje
+static void opciones (int argc, char* argv [], Opciones * op)
 {
     int opt = 0;
 
-    while ( (opt = getopt (argc, argv, "u:c:") ) != -1) {
-        switch (opt) {
+    while ( (opt = getopt (argc, argv, "u:c:t:m:") ) != -1) 
+    {
+        switch (opt) 
+        {
             case 'u': 
-                if (optarg != NULL) {
-                    *usuario = strdup (optarg);
-                    break;
-                }
+                if (optarg != NULL)
+                    op->usuario = strdup (optarg);
+                break;
             case 'c':
-                if (optarg != NULL) {
-                    *clave = strdup (optarg);
-                    break;
-                }
+                if (optarg != NULL)
+                    op->clave = strdup (optarg);
+                break;
+            case 'm':
+                if (optarg != NULL)
+                    op->mensaje = strdup (optarg);
+                break;
+            case 't':
+                if (optarg != NULL) 
+                    op->titulo = strdup (optarg);
+                break;
         }
     }
 }
@@ -51,14 +67,18 @@ static void opciones (int argc, char* argv [],
 
 int main ( int argc, char * argv [] ) 
 {
-    char const * usuario  = "alumno";
-    char const * clave    = "alumno";
+    Opciones op = {
+        .usuario    = "alumno",
+        .clave      = "alumno",
+        .mensaje    = "Por favor, debes cambiar la clave.",
+        .titulo     = "Huayra"
+    };
 
-    opciones ( argc, argv, &usuario, &clave);
+    opciones ( argc, argv, &op);
 
-    if ( PAM_SUCCESS == pam_auth_user_pass (usuario, clave) )
+    if ( PAM_SUCCESS == pam_auth_user_pass (op.usuario, op.clave) )
     {
-        notify_wrap_show ("Huayra", "Debe cambiar la clave", "gtk-dialog-warning");
+        notify_wrap_show (op.titulo, op.mensaje, "gtk-dialog-warning");
     }
 }
 /* vim: set ts=4 sw=4 tw=80 et :*/

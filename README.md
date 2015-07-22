@@ -16,6 +16,12 @@ Soporta los siguientes parámetros para solapar los valores por defecto:
 
 ```-c``` para indicar la **clave** de usuario.
 
+```-m``` para indicar el mensaje informativo.
+
+```-t``` para indicar el titulo del mensage (generalmente de mayor tamaño y en
+negritas).
+
+
 Ej.
 
 ```bash
