@@ -8,7 +8,7 @@ Por defecto verifica el usuario ```alumno``` y la clave de usuario ```alumno```
 
 ### Uso:
 ```bash 
-/usr/bin/validar_clave
+/usr/bin/verificar_clave
 ```
 Soporta los siguientes parámetros para solapar los valores por defecto:
 
