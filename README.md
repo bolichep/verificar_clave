@@ -17,7 +17,7 @@ Se instalan dos archivos, ```verificar_clave``` en ```/usr/bin``` y el archivo
 
 ```bash
 make install
-
+```
 
 
 
