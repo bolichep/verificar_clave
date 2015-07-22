@@ -24,7 +24,16 @@
 
 static NotifyNotification * notify_obj = NULL;
 
-void notify_wrap_show (char * summary, char * body, const char * icon);
+typedef struct NotifyExtra {
+    gint time;
+    NotifyUrgency urgency;
+} NotifyExtra;
+
+
+void notify_wrap_show (char * summary, 
+        char * body,
+        const char * const icon,
+        NotifyExtra const * extra);
 
 static int notify_wrap_init ();
 static void notify_wrap_end ();

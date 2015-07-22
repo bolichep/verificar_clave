@@ -18,7 +18,10 @@
 */
 #include "notify_wrap.h"
 
-void notify_wrap_show (char * summary, char * body, char const * const icon)
+void notify_wrap_show (char * summary, 
+        char * body, 
+        char const * const icon, 
+        NotifyExtra const * extra)
 {
     remove_ampersand(summary);
     remove_ampersand(body);
@@ -41,6 +44,12 @@ void notify_wrap_show (char * summary, char * body, char const * const icon)
     {
         notify_uninit();
         return;
+    }
+
+    if ( extra != NULL )
+    {
+        notify_notification_set_timeout (notify_obj, extra->time);
+        notify_notification_set_urgency (notify_obj, extra->urgency);
     }
 
     GError* err = NULL;

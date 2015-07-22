@@ -72,13 +72,19 @@ int main ( int argc, char * argv [] )
         .clave      = "alumno",
         .mensaje    = "Por favor, debes cambiar la clave.",
         .titulo     = "Huayra"
+
     };
 
     opciones ( argc, argv, &op);
 
     if ( PAM_SUCCESS == pam_auth_user_pass (op.usuario, op.clave) )
     {
-        notify_wrap_show (op.titulo, op.mensaje, "gtk-dialog-warning");
+        // Nota:
+        // Con .time = NOTIFY_EXPIRES_NEVER, se muestra un cuadro de
+        // diálogo con botones. 
+        NotifyExtra extra = { .time = NOTIFY_EXPIRES_DEFAULT, .urgency = NOTIFY_URGENCY_CRITICAL};
+
+        notify_wrap_show (op.titulo, op.mensaje, "gtk-dialog-warning", &extra);
     }
 }
 /* vim: set ts=4 sw=4 tw=80 et :*/
