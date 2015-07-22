@@ -10,15 +10,18 @@ Por defecto verifica el usuario ```alumno``` y la clave de usuario ```alumno```
 ```bash 
 /usr/bin/validar_clave
 ```
-Soporta los siguientes parámetros para solapar los valores por defecto.
+Soporta los siguientes parámetros para solapar los valores por defecto:
+
 ```-u``` para indicar el nombre de **usuario**.
 ```-c``` para indicar la **clave** de usuario.
+
 Ej.
+
 ```bash
 validar_clave -u pepe -c fg851la
 ```
 En caso que el usuario *pepe* utilice la clave *fg851la* se mostrará un
-mesage de alerta, en caso contrario no se mostrará ningún mensaje.
+mensaje de alerta, en caso contrario no se mostrará ningún mensaje.
 
 
 ### Compilar:
