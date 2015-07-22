@@ -22,8 +22,8 @@
 
 int main ( int argc, char argv [] ) 
 {
-    char const * const usuario  = "dani";
-    char const * const clave    = "fg851la";
+    char const * const usuario  = "alumno";
+    char const * const clave    = "alumno";
 
     if ( PAM_SUCCESS == pam_auth_user_pass (usuario, clave) )
     {
