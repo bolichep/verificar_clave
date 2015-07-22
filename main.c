@@ -17,8 +17,12 @@
     along with verificar_clave.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <unistd.h>
+
 #include "notify_wrap.h"
 #include "pam_auth.h"
+
+extern char * optarg;
 
 // Soporta:
 // -u para usuario 
