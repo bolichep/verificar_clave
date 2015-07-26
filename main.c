@@ -52,7 +52,7 @@ _Noreturn void ayuda ()
 // -m mensaje
 // -t titulo del mensaje
 // -h ayuda
-static int opciones (int argc, char* argv [], Opciones * op)
+static void opciones (int argc, char* argv [], Opciones * op)
 {
     int opt = 0;
 
