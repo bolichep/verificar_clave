@@ -52,11 +52,11 @@ _Noreturn void ayuda ()
 // -m mensaje
 // -t titulo del mensaje
 // -h ayuda
-static void opciones (int argc, char* argv [], Opciones * op)
+static void opciones (int argc, char * argv [], Opciones * op)
 {
     int opt = 0;
 
-    while ( (opt = getopt (argc, argv, "u:c:t:m:h") ) != -1) 
+    while ((opt = getopt (argc, argv, "u:c:t:m:h")) != -1) 
     {
         switch (opt) 
         {
@@ -84,7 +84,7 @@ static void opciones (int argc, char* argv [], Opciones * op)
 }
 
 
-int main ( int argc, char * argv [] ) 
+int main (int argc, char * argv []) 
 {
     Opciones op = {
         .usuario    = "alumno",
@@ -94,9 +94,9 @@ int main ( int argc, char * argv [] )
 
     };
 
-    opciones ( argc, argv, &op);
+    opciones (argc, argv, &op);
 
-    if ( PAM_SUCCESS == pam_auth_user_pass (op.usuario, op.clave) )
+    if (PAM_SUCCESS == pam_auth_user_pass (op.usuario, op.clave))
     {
         // Nota:
         // Con .time = NOTIFY_EXPIRES_NEVER, se muestra un cuadro de

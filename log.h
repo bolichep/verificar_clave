@@ -20,7 +20,7 @@
 #ifndef LOG_H
 #define LOG_H 
 #include <syslog.h>
-#define LOG(x) syslog(LOG_ERR,"#Func:%s #Line:%d #Msg:%s", __func__ , __LINE__ ,(x));  
+#define LOG(x) syslog (LOG_ERR, "#Func:%s #Line:%d #Msg:%s", __func__ , __LINE__ , (x));  
 #endif
 
 /* vim: set ts=4 sw=4 tw=80 et :*/

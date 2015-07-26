@@ -23,24 +23,25 @@ static int conv (int num_msg, pam_message const ** msg, pam_response ** resp, vo
 {
     pam_response * reply = malloc (sizeof (pam_response));
 
-    reply->resp = (char *)appdata_ptr;
+    reply->resp = (char *) appdata_ptr;
     reply->resp_retcode = 0;
     *resp = reply;
     return PAM_SUCCESS;
 }
 
+
 int pam_auth_user_pass (char const * const user, char const * const pass)
 {
-    struct pam_conv pamc = { conv, strdup(pass) };
-    pam_handle_t* pamh = NULL; 
+    struct pam_conv pamc = { conv, strdup (pass) };
+    pam_handle_t * pamh = NULL; 
     int retval = PAM_ABORT;
 
-    if ( (retval = pam_start ("login", user, &pamc, &pamh) ) == PAM_SUCCESS)
+    if ((retval = pam_start ("login", user, &pamc, &pamh)) == PAM_SUCCESS)
     {
         retval = pam_authenticate (pamh, 0);
     }
 
-    LOG ( pam_strerror (pamh, retval) );
+    LOG (pam_strerror (pamh, retval));
     pam_end (pamh, 0); 
     return retval;
 }

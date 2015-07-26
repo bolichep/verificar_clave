@@ -23,10 +23,10 @@ void notify_wrap_show (char * summary,
         char const * const icon, 
         NotifyExtra const * extra)
 {
-    remove_ampersand(summary);
-    remove_ampersand(body);
+    remove_ampersand (summary);
+    remove_ampersand (body);
 
-    if (0 == notify_wrap_init () )
+    if (0 == notify_wrap_init ())
     {
         return;
     }
@@ -42,30 +42,30 @@ void notify_wrap_show (char * summary,
 
     if (NULL == notify_obj)
     {
-        notify_uninit();
+        notify_uninit ();
         return;
     }
 
-    if ( extra != NULL )
+    if (extra != NULL)
     {
         notify_notification_set_timeout (notify_obj, extra->time);
         notify_notification_set_urgency (notify_obj, extra->urgency);
     }
 
-    GError* err = NULL;
-    if (!notify_notification_show (notify_obj, &err) )
+    GError * err = NULL;
+    if (!notify_notification_show (notify_obj, &err))
     {
-        g_error_free(err);
-        notify_wrap_end();
+        g_error_free (err);
+        notify_wrap_end ();
     }
 }
 
 
 int notify_wrap_init ()
 {
-    if (!notify_is_initted () )
+    if (!notify_is_initted ())
     {
-        if (!notify_init ("verificar_clave") )
+        if (!notify_init ("verificar_clave"))
         {
             return 0;
         }
@@ -76,7 +76,7 @@ int notify_wrap_init ()
 
 void notify_wrap_end ()
 {
-    g_object_unref (G_OBJECT(notify_obj) );
+    g_object_unref (G_OBJECT (notify_obj));
 
     notify_obj = NULL;
 
