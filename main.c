@@ -31,16 +31,32 @@ typedef struct Opciones {
     char * titulo;
 } Opciones;
 
+
+_Noreturn void ayuda () 
+{
+    char const contenido [] = "Las opciones son:\n"
+    "-u para el usuario\n"
+    "-c para la clave\n"
+    "-m para el mensaje\n"
+    "-t para el título del mensaje\n"
+    "-h muestra la ayuda.";
+
+    printf ("Ayuda:\n%s", contenido);
+
+    exit(EXIT_SUCCESS);
+}
+
 // Soporta:
 // -u para usuario 
 // -c para clave
 // -m mensaje
 // -t titulo del mensaje
-static void opciones (int argc, char* argv [], Opciones * op)
+// -h ayuda
+static int opciones (int argc, char* argv [], Opciones * op)
 {
     int opt = 0;
 
-    while ( (opt = getopt (argc, argv, "u:c:t:m:") ) != -1) 
+    while ( (opt = getopt (argc, argv, "u:c:t:m:h") ) != -1) 
     {
         switch (opt) 
         {
@@ -59,6 +75,9 @@ static void opciones (int argc, char* argv [], Opciones * op)
             case 't':
                 if (optarg != NULL) 
                     op->titulo = strdup (optarg);
+                break;
+            default: // también implica -h
+                ayuda();
                 break;
         }
     }
@@ -85,6 +104,10 @@ int main ( int argc, char * argv [] )
         NotifyExtra extra = { .time = NOTIFY_EXPIRES_DEFAULT, .urgency = NOTIFY_URGENCY_CRITICAL};
 
         notify_wrap_show (op.titulo, op.mensaje, "gtk-dialog-warning", &extra);
+
+        return EXIT_SUCCESS;
     }
+
+    return EXIT_FAILURE;
 }
 /* vim: set ts=4 sw=4 tw=80 et :*/
