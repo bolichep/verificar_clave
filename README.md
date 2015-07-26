@@ -20,6 +20,7 @@ Soporta los siguientes parámetros para solapar los valores por defecto:
 
 ```-t``` para indicar el titulo del mensaje (generalmente de mayor tamaño y en
 negritas).
+```-h``` muestra un resumen de ayuda.
 
 
 Ej.
