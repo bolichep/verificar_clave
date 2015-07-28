@@ -14,7 +14,7 @@ set( CMAKE_C_FLAGS_DEBUG "-DDEBUG -std=c99 -O0 -ggdb")
 set( CMAKE_INSTALL_PREFIX "/usr")
 
 include (FindPkgConfig)
-pkg_search_module(GTK REQUIRE gtk+-2.0)
+pkg_search_module(GTK REQUIRED gtk+-2.0)
 pkg_search_module(NOTIFY REQUIRED libnotify)
 
 link_directories(
