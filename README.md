@@ -73,8 +73,13 @@ make install
 - libpam
 - libnotify
 
+
+### Archivo .desktop:
+Si la contraseña de usuario tiene caracteres espciales(#%?...) utilice la
+secuencia de escape: ```\```.
+Por ejemplo, para la contraseña ```Yu%?``` debera utilizar la secuencia de
+escape, asi: ```Yu\%\?```
+
+
 ### Nota para administradores.
 Si utiliza ```systemd``` puede ver el *log* del programa utilizando ```journalctl -f```
-
-
-
