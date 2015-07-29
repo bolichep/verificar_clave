@@ -41,7 +41,7 @@ _Noreturn void ayuda ()
     "-t para el título del mensaje\n"
     "-h muestra la ayuda.";
 
-    printf ("Ayuda:\n%s", contenido);
+    printf ("Ayuda:\n%s\n", contenido);
 
     exit(EXIT_SUCCESS);
 }
