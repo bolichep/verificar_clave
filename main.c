@@ -24,14 +24,22 @@
 
 extern char * optarg;
 
+// Simula alarm() con sleep()
+typedef struct Alarma {
+    int tiempo; // en segundos
+    int repetir;
+} Alarma;
+
 typedef struct Opciones {
     char * usuario;
     char * clave;
     char * mensaje;
     char * titulo;
+    Alarma alarma;
 } Opciones;
 
 
+//TODO: alarma
 _Noreturn void ayuda () 
 {
     char const contenido [] = "Las opciones son:\n"
@@ -39,6 +47,7 @@ _Noreturn void ayuda ()
     "-c para la clave\n"
     "-m para el mensaje\n"
     "-t para el título del mensaje\n"
+    "-a alarma cada segundos:repetir\n"
     "-h muestra la ayuda.";
 
     printf ("Ayuda:\n%s\n", contenido);
@@ -46,17 +55,37 @@ _Noreturn void ayuda ()
     exit(EXIT_SUCCESS);
 }
 
+
+static void opciones_alarma (Opciones * op) 
+{
+    char const * const delim = ":";
+
+    char * tok = strtok (optarg, delim);
+    if (tok != NULL)
+    {
+        op->alarma.tiempo = atoi (tok);
+    }
+
+    tok = strtok (NULL, delim);
+    if (tok != NULL)
+    {
+       int valor = atoi (tok);
+       op->alarma.repetir =  ( valor <= 0) ? 1 : valor;
+    }
+}
+
 // Soporta:
 // -u para usuario 
 // -c para clave
 // -m mensaje
 // -t titulo del mensaje
+// -a alarma
 // -h ayuda
 static void opciones (int argc, char * argv [], Opciones * op)
 {
     int opt = 0;
 
-    while ((opt = getopt (argc, argv, "u:c:t:m:h")) != -1) 
+    while ((opt = getopt (argc, argv, "u:c:t:m:a:h")) != -1) 
     {
         switch (opt) 
         {
@@ -76,6 +105,10 @@ static void opciones (int argc, char * argv [], Opciones * op)
                 if (optarg != NULL) 
                     op->titulo = strdup (optarg);
                 break;
+            case 'a':
+                if (optarg != NULL) 
+                    opciones_alarma (op);
+                break;
             default: // también implica -h
                 ayuda();
                 break;
@@ -84,30 +117,46 @@ static void opciones (int argc, char * argv [], Opciones * op)
 }
 
 
-int main (int argc, char * argv []) 
+static _Bool autenticar_notificar (Opciones const * const op)
 {
-    Opciones op = {
-        .usuario    = "alumno",
-        .clave      = "alumno",
-        .mensaje    = "Por favor, debes cambiar la clave.",
-        .titulo     = "Huayra"
-
-    };
-
-    opciones (argc, argv, &op);
-
-    if (PAM_SUCCESS == pam_auth_user_pass (op.usuario, op.clave))
+    if (PAM_SUCCESS == pam_auth_user_pass (op->usuario, op->clave))
     {
         // Nota:
         // Con .time = NOTIFY_EXPIRES_NEVER, se muestra un cuadro de
         // diálogo con botones. 
         NotifyExtra extra = { .time = NOTIFY_EXPIRES_DEFAULT, .urgency = NOTIFY_URGENCY_CRITICAL};
 
-        notify_wrap_show (op.titulo, op.mensaje, "gtk-dialog-warning", &extra);
-
-        return EXIT_SUCCESS;
+        notify_wrap_show (op->titulo, op->mensaje, "gtk-dialog-warning", &extra);
+        
+        return TRUE;
     }
 
-    return EXIT_FAILURE;
+    return FALSE;
+}
+
+int main (int argc, char * argv []) 
+{
+    Opciones op = {
+        .usuario    = "alumno",
+        .clave      = "alumno",
+        .mensaje    = "Por favor, debes cambiar la clave.",
+        .titulo     = "Huayra",
+        .alarma    = (Alarma){ .tiempo = 0, .repetir = 1 } 
+    };
+
+    opciones (argc, argv, &op);
+
+    for (unsigned int i = 0; op.alarma.tiempo >= 0 && i <= op.alarma.repetir; ++i) 
+    {
+        if ( TRUE == autenticar_notificar (&op))
+        {
+            sleep (op.alarma.tiempo);
+            continue;
+        }
+
+        return EXIT_FAILURE;
+    }
+
+    return EXIT_SUCCESS;
 }
 /* vim: set ts=4 sw=4 tw=80 et :*/

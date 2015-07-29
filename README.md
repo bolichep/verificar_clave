@@ -20,6 +20,8 @@ Soporta los siguientes parámetros para solapar los valores por defecto:
 
 ```-t``` para indicar el titulo del mensaje (generalmente de mayor tamaño y en negritas).
 
+```-a``` para indicar la alarma, formato = segundos:repetir
+
 ```-h``` muestra un resumen de ayuda.
 
 
@@ -36,6 +38,19 @@ Cualquier usuario:
 
 ```bash
 verificar_clave -u $(whoami) -c fg851la
+```
+
+Alarma:
+Repetir el mensaje 8 veces cada 60 segundos.
+
+```bash
+verificar_clave -u pepe -c fg851la -a 60:8
+```
+
+Repetir una sóla vez a los 8 segundos.
+
+```bash
+verificar_clave -u pepe -c fg851la -a 8
 ```
 
 
