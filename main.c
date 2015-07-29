@@ -18,6 +18,7 @@
 */
 
 #include <unistd.h>
+#include <pwd.h>
 
 #include "notify_wrap.h"
 #include "pam_auth.h"
@@ -39,7 +40,6 @@ typedef struct Opciones {
 } Opciones;
 
 
-//TODO: alarma
 _Noreturn void ayuda () 
 {
     char const contenido [] = "Las opciones son:\n"
@@ -134,14 +134,26 @@ static _Bool autenticar_notificar (Opciones const * const op)
     return FALSE;
 }
 
+
+char * nombre_usuario_actual () 
+{
+    uid_t  usuario_id = geteuid ();
+    struct passwd * datos = getpwuid (usuario_id);
+
+    return strdup (datos->pw_name);
+}
+
+
 int main (int argc, char * argv []) 
 {
+    char * nombre_usuario = nombre_usuario_actual ();
+
     Opciones op = {
-        .usuario    = "alumno",
-        .clave      = "alumno",
-        .mensaje    = "Por favor, debes cambiar la clave.",
-        .titulo     = "Huayra",
-        .alarma    = (Alarma){ .tiempo = 0, .repetir = 1 } 
+        .usuario  = nombre_usuario,
+        .clave    = "alumno",
+        .mensaje  = "Por favor, debes cambiar la clave.",
+        .titulo   = nombre_usuario,
+        .alarma   = (Alarma){ .tiempo = 0, .repetir = 1 } 
     };
 
     opciones (argc, argv, &op);
@@ -154,9 +166,11 @@ int main (int argc, char * argv [])
             continue;
         }
 
+        free (nombre_usuario);
         return EXIT_FAILURE;
     }
 
+    free (nombre_usuario);
     return EXIT_SUCCESS;
 }
 /* vim: set ts=4 sw=4 tw=80 et :*/

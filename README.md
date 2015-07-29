@@ -3,7 +3,14 @@
 Verifica que la clave de un usuario en particular no esté siendo utilizada.
 En caso afirmativo, se informa mediante un mensaje al inicio de sesión,
 notificado en el escritorio.
-Por defecto verifica el usuario ```alumno``` y la clave de usuario ```alumno```
+
+- Nota:
+
+La clave por defecto es ```alumno```.
+
+Se detecta automáticamente el nombre de usuario, por lo tanto, por defecto
+el nombre de usuario es de aquel que ejecute la aplicación y lo mismo para
+el titulo, esto evita el uso de $(whoami) en la línea de parámetros.
 
 
 ### Uso:
@@ -16,16 +23,18 @@ Soporta los siguientes parámetros para solapar los valores por defecto:
 
 ```-c``` para indicar la **clave** de usuario.
 
-```-m``` para indicar el mensaje informativo.
+```-m``` para indicar el **mensaje** informativo.
 
-```-t``` para indicar el titulo del mensaje (generalmente de mayor tamaño y en negritas).
+```-t``` para indicar el **titulo** del mensaje (generalmente de mayor tamaño y en negritas).
 
-```-a``` para indicar la alarma, formato = segundos:repetir
+```-a``` para indicar la **alarma**, formato = segundos:repetir
 
 ```-h``` muestra un resumen de ayuda.
 
 
-Ej.
+Ejemplos:
+
+- Algún usuario con alguna clave:
 
 ```bash
 verificar_clave -u pepe -c fg851la
@@ -34,23 +43,24 @@ verificar_clave -u pepe -c fg851la
 En caso que el usuario *pepe* utilice la clave *fg851la* se mostrará un
 mensaje de alerta, en caso contrario no se mostrará ningún mensaje.
 
-Cualquier usuario:
+- Usuario actual con alguna clave:
 
 ```bash
-verificar_clave -u $(whoami) -c fg851la
+verificar_clave -c fg851la
 ```
 
-Alarma:
+- Alarma
+
 Repetir el mensaje 8 veces cada 60 segundos.
 
 ```bash
-verificar_clave -u pepe -c fg851la -a 60:8
+verificar_clave -c fg851la -a 60:8
 ```
 
 Repetir una sóla vez a los 8 segundos.
 
 ```bash
-verificar_clave -u pepe -c fg851la -a 8
+verificar_clave -c fg851la -a 8
 ```
 
 
