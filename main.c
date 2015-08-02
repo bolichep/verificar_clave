@@ -137,10 +137,10 @@ static _Bool autenticar_notificar (Opciones const * const op)
 }
 
 
-char * nombre_usuario_actual () 
+char * const nombre_usuario_actual () 
 {
-    uid_t  usuario_id = geteuid ();
-    struct passwd * datos = getpwuid (usuario_id);
+    uid_t const usuario_id = geteuid ();
+    struct passwd const * const datos = getpwuid (usuario_id);
 
     return strdup (datos->pw_name);
 }
@@ -148,7 +148,7 @@ char * nombre_usuario_actual ()
 
 int main (int argc, char * argv []) 
 {
-    char * nombre_usuario = nombre_usuario_actual ();
+    char * const nombre_usuario = nombre_usuario_actual ();
 
     Opciones op = {
         .usuario  = nombre_usuario,
