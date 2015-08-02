@@ -121,10 +121,12 @@ static _Bool autenticar_notificar (Opciones const * const op)
 {
     if (PAM_SUCCESS == pam_auth_user_pass (op->usuario, op->clave))
     {
-        // Nota:
         // Con .time = NOTIFY_EXPIRES_NEVER, se muestra un cuadro de
         // diálogo con botones. 
-        NotifyExtra extra = { .time = NOTIFY_EXPIRES_DEFAULT, .urgency = NOTIFY_URGENCY_CRITICAL};
+        NotifyExtra extra = {
+            .time = NOTIFY_EXPIRES_DEFAULT,
+            .urgency = NOTIFY_URGENCY_CRITICAL
+        };
 
         notify_wrap_show (op->titulo, op->mensaje, "gtk-dialog-warning", &extra);
         
