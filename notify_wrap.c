@@ -34,22 +34,18 @@ void notify_wrap_show (char * summary,
     if (notify_obj == NULL)
     {
         notify_obj = notify_notification_new (summary, body, icon);
+
+        if (NULL == notify_obj)
+        {
+            notify_uninit ();
+            return;
+        }
+
+        extra_init (extra);
     }
     else
     {
         notify_notification_update (notify_obj, summary, body, icon);
-    }
-
-    if (NULL == notify_obj)
-    {
-        notify_uninit ();
-        return;
-    }
-
-    if (extra != NULL)
-    {
-        notify_notification_set_timeout (notify_obj, extra->time);
-        notify_notification_set_urgency (notify_obj, extra->urgency);
     }
 
     GError * err = NULL;
@@ -58,6 +54,46 @@ void notify_wrap_show (char * summary,
         g_error_free (err);
         notify_wrap_end ();
     }
+}
+
+
+void extra_init (NotifyExtra const * const extra)
+{
+    if (extra == NULL)
+    {
+        return;
+    }
+    notify_notification_set_timeout (notify_obj, extra->time);
+    notify_notification_set_urgency (notify_obj, extra->urgency);
+    
+    if (support_actions () && extra->callback != NULL)
+    {
+        notify_notification_add_action (notify_obj,
+                "open",
+                "Cambiar clave...",
+                extra->callback,
+                NULL,
+                NULL);
+    }
+}
+
+
+gboolean const support_actions ()
+{
+    g_assert (notify_obj != NULL);
+
+    GList * caps = notify_get_server_caps ();
+    gboolean ret = FALSE;
+
+    if (g_list_find_custom( caps, "actions", (GCompareFunc) strcmp))
+    {
+        ret = TRUE;
+    }
+
+    g_list_foreach (caps, (GFunc) g_free, NULL);
+    g_list_free (caps);
+
+    return ret;
 }
 
 
