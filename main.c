@@ -31,6 +31,8 @@ typedef struct Alarma {
     int repetir;
 } Alarma;
 
+
+
 typedef struct Opciones {
     char * usuario;
     char * clave;
@@ -38,6 +40,7 @@ typedef struct Opciones {
     char * titulo;
     Alarma alarma;
 } Opciones;
+
 
 
 _Noreturn void ayuda () 
@@ -117,15 +120,33 @@ static void opciones (int argc, char * argv [], Opciones * op)
 }
 
 
+
+static void accion_de_notificacion (NotifyNotification * notify, char const * const action, gpointer data)
+{
+    GSubprocessLauncher * proc = g_subprocess_launcher_new (G_SUBPROCESS_FLAGS_NONE);
+    gchar const * const argv = "/usr/bin/mate-users-admin";
+    GError* error = NULL;
+
+    if (NULL == g_subprocess_launcher_spawn (proc, &error, argv))
+    {
+        LOG ("Error al ejecutar el sub-proceso");
+    }
+}
+
+
+
 static _Bool autenticar_notificar (Opciones const * const op)
 {
-    if (PAM_SUCCESS == pam_auth_user_pass (op->usuario, op->clave))
+    gchar * pass_cpy = g_strdup (op->clave);
+
+    if (PAM_SUCCESS == pam_auth_user_pass (op->usuario, pass_cpy))
     {
         // Con .time = NOTIFY_EXPIRES_NEVER, se muestra un cuadro de
         // diálogo con botones. 
         NotifyExtra extra = {
             .time = NOTIFY_EXPIRES_DEFAULT,
-            .urgency = NOTIFY_URGENCY_CRITICAL
+            .urgency = NOTIFY_URGENCY_CRITICAL,
+            .callback =  NOTIFY_ACTION_CALLBACK (accion_de_notificacion)
         };
 
         notify_wrap_show (op->titulo, op->mensaje, "gtk-dialog-warning", &extra);
@@ -137,6 +158,7 @@ static _Bool autenticar_notificar (Opciones const * const op)
 }
 
 
+
 char * const nombre_usuario_actual () 
 {
     uid_t const usuario_id = geteuid ();
@@ -144,6 +166,27 @@ char * const nombre_usuario_actual ()
 
     return strdup (datos->pw_name);
 }
+
+
+
+static gpointer autenticar_notificar_thread (gpointer data)
+{
+    Opciones const * const op = (Opciones const * const) data;
+
+    for (unsigned int i = 0; op->alarma.tiempo >= 0 && i <= op->alarma.repetir; ++i) 
+    {
+        if ( TRUE == autenticar_notificar (op))
+        {
+            sleep (op->alarma.tiempo);
+            continue;
+        }
+    }
+
+    gtk_main_quit ();
+
+    return NULL;
+}
+
 
 
 int main (int argc, char * argv []) 
@@ -160,19 +203,14 @@ int main (int argc, char * argv [])
 
     opciones (argc, argv, &op);
 
-    for (unsigned int i = 0; op.alarma.tiempo >= 0 && i <= op.alarma.repetir; ++i) 
-    {
-        if ( TRUE == autenticar_notificar (&op))
-        {
-            sleep (op.alarma.tiempo);
-            continue;
-        }
+    GThread * thread = g_thread_new (NULL, autenticar_notificar_thread, &op);
 
-        free (nombre_usuario);
-        return EXIT_FAILURE;
+    if (! thread)
+    {
+        g_printf ("Fallo el thread");
+        return( EXIT_FAILURE );
     }
 
-    free (nombre_usuario);
-    return EXIT_SUCCESS;
+    gtk_main();
 }
 /* vim: set ts=4 sw=4 tw=80 et :*/

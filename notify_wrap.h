@@ -21,12 +21,14 @@
 #define NOTIFY_WRAP_H
 
 #include <libnotify/notify.h>
+#include <string.h> // strcmp
 
 static NotifyNotification * notify_obj = NULL;
 
 typedef struct NotifyExtra {
     gint time;
     NotifyUrgency urgency;
+    NotifyActionCallback callback;
 } NotifyExtra;
 
 
@@ -38,6 +40,7 @@ void notify_wrap_show (char * summary,
 static int notify_wrap_init ();
 static void notify_wrap_end ();
 static void remove_ampersand (char * str);
-
+static void extra_init ();
+static gboolean const support_actions ();
 #endif 
 /* vim: set ts=4 sw=4 tw=80 et :*/

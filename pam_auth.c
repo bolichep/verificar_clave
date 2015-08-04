@@ -32,7 +32,7 @@ static int conv (int num_msg, pam_message const ** msg, pam_response ** resp, vo
 
 int pam_auth_user_pass (char const * const user, char const * const pass)
 {
-    struct pam_conv pamc = { conv, strdup (pass) };
+    struct pam_conv pamc = { conv, pass };
     pam_handle_t * pamh = NULL; 
     int retval = PAM_ABORT;
 
