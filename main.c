@@ -207,7 +207,7 @@ int main (int argc, char * argv [])
 
     if (! thread)
     {
-        g_printf ("Fallo el thread");
+        LOG ("Fallo el thread");
         return( EXIT_FAILURE );
     }
 
