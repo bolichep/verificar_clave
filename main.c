@@ -131,11 +131,13 @@ static void opciones (int argc, char * argv [], Opciones * op)
 static void accion_de_notificacion (NotifyNotification * notify, char const * const action, gpointer data)
 {
     GSubprocessLauncher * proc = g_subprocess_launcher_new (G_SUBPROCESS_FLAGS_NONE);
-    GError* error = NULL;
+    GError * error = NULL;
 
-    if (NULL == g_subprocess_launcher_spawn (proc, &error, desktop_admin ()))
+    gchar const * const admin = desktop_admin (); 
+
+    if (NULL == g_subprocess_launcher_spawn (proc, &error, admin))
     {
-        LOG ("Error al ejecutar el sub-proceso");
+        LOG ("Error al ejecutar el sub-proceso %s", admin);
         g_error_free (error);
     }
 }
@@ -213,7 +215,7 @@ int main (int argc, char * argv [])
 
     if (! thread)
     {
-        LOG ("Fallo el thread");
+        LOG ("Fallo el inicio del thread");
         return( EXIT_FAILURE );
     }
 

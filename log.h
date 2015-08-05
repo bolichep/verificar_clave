@@ -19,8 +19,16 @@
 
 #ifndef LOG_H
 #define LOG_H 
-#include <syslog.h>
-#define LOG(x) syslog (LOG_ERR, "#Func:%s #Line:%d #Msg:%s", __func__ , __LINE__ , (x));  
-#endif
 
+#include <syslog.h>
+
+#define LOG(...) {                                  \
+    char * msg = NULL;                              \
+    asprintf (&msg, __VA_ARGS__);                   \
+    syslog (LOG_ERR, "#Func:%s #Line:%d #Msg:%s",   \
+            __func__ , __LINE__ , msg);             \
+    free (msg);                                     \
+}
+
+#endif
 /* vim: set ts=4 sw=4 tw=80 et :*/
