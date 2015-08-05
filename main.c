@@ -26,6 +26,8 @@
 
 extern char * optarg;
 
+static GMainLoop * main_loop = NULL;
+
 // Simula alarm() con sleep()
 typedef struct Alarma {
     int tiempo; // en segundos
@@ -186,7 +188,7 @@ static gpointer autenticar_notificar_thread (gpointer data)
         }
     }
 
-    gtk_main_quit ();
+    g_main_loop_quit (main_loop);
 
     return NULL;
 }
@@ -215,6 +217,8 @@ int main (int argc, char * argv [])
         return( EXIT_FAILURE );
     }
 
-    gtk_main();
+    main_loop = g_main_loop_new (NULL, FALSE);
+
+    g_main_loop_run (main_loop);
 }
 /* vim: set ts=4 sw=4 tw=80 et :*/
