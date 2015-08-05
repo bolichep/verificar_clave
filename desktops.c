@@ -19,17 +19,16 @@
 
 #include "desktops.h"
 
-
-Desktop const * const desktop_list (DesktopType type)
+Admin const * const admin_list (DesktopType type)
 {
-    Desktop desktops [NUM] = { 
-        (Desktop){ XFCE     , "/usr/bin/mate-users-admin" },
-        (Desktop){ MATE     , "/usr/bin/mate-users-admin" },
-        (Desktop){ GNOME    , "/usr/bin/users-admin"      },
-        (Desktop){ UKNOWN   , "/usr/bin/mate-users-admin" },
+    Admin admins [NUM] = { 
+        (Admin){ XFCE     , "/usr/bin/mate-users-admin" },
+        (Admin){ MATE     , "/usr/bin/mate-users-admin" },
+        (Admin){ GNOME    , "/usr/bin/users-admin"      },
+        (Admin){ UKNOWN   , "/usr/bin/mate-users-admin" },
     };
 
-    return & desktops [type];
+    return & admins [type];
 }
 
 
@@ -50,19 +49,19 @@ gchar const * const desktop_admin ()
 
     if (! g_strcmp0 (desktop, "MATE"))
     {
-        admin = desktop_list (MATE)->name;
+        admin = admin_list (MATE)->name;
     } 
     else if (! g_strcmp0 (desktop, "XFCE"))
     {
-        admin = desktop_list (XFCE)->name;
+        admin = admin_list (XFCE)->name;
     }
     else if (! g_strcmp0 (desktop, "GNOME"))
     {
-        admin = desktop_list (GNOME)->name;
+        admin = admin_list (GNOME)->name;
     }
     else 
     {
-        admin = desktop_list (UKNOWN)->name;
+        admin = admin_list (UKNOWN)->name;
     }
 
     g_free (desktop);

@@ -23,13 +23,13 @@
 
 typedef enum { XFCE=0, MATE, GNOME, UKNOWN, NUM} DesktopType;
 
-typedef struct Desktop {
+typedef struct Admin {
     DesktopType type;
     gchar const * const name;
-} Desktop;
+} Admin;
 
 
-static Desktop const * const desktop_list (DesktopType type);
+static Admin const * const admin_list (DesktopType type);
 
 gchar const * const desktop_admin ();
 
