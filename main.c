@@ -22,6 +22,7 @@
 
 #include "notify_wrap.h"
 #include "pam_auth.h"
+#include "desktops.h"
 
 extern char * optarg;
 
@@ -40,7 +41,6 @@ typedef struct Opciones {
     char * titulo;
     Alarma alarma;
 } Opciones;
-
 
 
 _Noreturn void ayuda () 
@@ -121,13 +121,17 @@ static void opciones (int argc, char * argv [], Opciones * op)
 
 
 
+// * Dependencias:
+// MATE : mate-system-tools
+// GNOME: gnome-system-tools 
+// XFCE : mate-system-tools
+
 static void accion_de_notificacion (NotifyNotification * notify, char const * const action, gpointer data)
 {
     GSubprocessLauncher * proc = g_subprocess_launcher_new (G_SUBPROCESS_FLAGS_NONE);
-    gchar const * const argv = "/usr/bin/mate-users-admin";
     GError* error = NULL;
 
-    if (NULL == g_subprocess_launcher_spawn (proc, &error, argv))
+    if (NULL == g_subprocess_launcher_spawn (proc, &error, desktop_admin ()))
     {
         LOG ("Error al ejecutar el sub-proceso");
         g_error_free (error);
