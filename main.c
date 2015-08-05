@@ -179,7 +179,6 @@ static gpointer autenticar_notificar_thread (gpointer data)
         if ( TRUE == autenticar_notificar (op))
         {
             sleep (op->alarma.tiempo);
-            continue;
         }
     }
 
