@@ -12,7 +12,7 @@ Se detecta automáticamente el nombre de usuario, por lo tanto, por defecto
 el nombre de usuario es de aquel que ejecute la aplicación y lo mismo para
 el titulo, esto evita el uso de $(whoami) en la línea de parámetros.
 
-<a href="http://es.zimagez.com/zimage/verificarclave.php" target="_blank" title="Foto alojada por zimagez.com"><img src="http://es.zimagez.com/miniature/verificarclave.png" alt="Foto alojada por zimagez.com" /></a>
+<a href="http://www.zimagez.com/zimage/verificarclave-20.php" target="_blank" title=""><img src="http://www.zimagez.com/miniature/verificarclave-20.png" alt="" /></a>
 
 ### Uso:
 ```bash 
