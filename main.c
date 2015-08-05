@@ -130,6 +130,7 @@ static void accion_de_notificacion (NotifyNotification * notify, char const * co
     if (NULL == g_subprocess_launcher_spawn (proc, &error, argv))
     {
         LOG ("Error al ejecutar el sub-proceso");
+        g_error_free (error);
     }
 }
 
