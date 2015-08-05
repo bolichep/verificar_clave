@@ -34,22 +34,19 @@ Desktop const * const desktop_list (DesktopType type)
 
 
 
-gchar const * desktop_current ()
-{
-    gchar ** env = g_get_environ ();
-    gchar const * current = g_environ_getenv (env, "XDG_CURRENT_DESKTOP");
-    g_strfreev(env);
-    return current;
-}
-
-
 gchar const * const desktop_admin ()
 {
-    gchar const * desktop = desktop_current ();
-
-    g_assert (desktop != NULL);
-
     gchar const * admin = NULL;
+
+    gchar ** env = g_get_environ ();
+
+    gchar const * current = g_environ_getenv (env, "XDG_CURRENT_DESKTOP");
+
+    g_assert (current != NULL);
+
+    gchar const * desktop = g_strdup (current);
+
+    g_strfreev (env);
 
     if (! g_strcmp0 (desktop, "MATE"))
     {
@@ -68,6 +65,7 @@ gchar const * const desktop_admin ()
         admin = desktop_list (UKNOWN)->name;
     }
 
-
+    g_free (desktop);
+    g_assert (admin != NULL);
     return admin;
 }

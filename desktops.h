@@ -31,8 +31,6 @@ typedef struct Desktop {
 
 static Desktop const * const desktop_list (DesktopType type);
 
-static gchar const * desktop_current ();
-
 gchar const * const desktop_admin ();
 
 #endif
