@@ -30,6 +30,8 @@ Soporta los siguientes parámetros para solapar los valores por defecto:
 
 ```-a``` para indicar la **alarma**, formato = segundos:repetir
 
+```-b``` no mostrar botón de acción, "Cambiar clave..."
+
 ```-h``` muestra un resumen de ayuda.
 
 

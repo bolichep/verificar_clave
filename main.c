@@ -41,6 +41,7 @@ typedef struct Opciones {
     char * clave;
     char * mensaje;
     char * titulo;
+    gboolean accion; // mostrar botón 'Cambiar clave...'
     Alarma alarma;
 } Opciones;
 
@@ -86,11 +87,12 @@ static void opciones_alarma (Opciones * op)
 // -t titulo del mensaje
 // -a alarma
 // -h ayuda
+// -b sin botón "Cambiar clave..."
 static void opciones (int argc, char * argv [], Opciones * op)
 {
     int opt = 0;
 
-    while ((opt = getopt (argc, argv, "u:c:t:m:a:h")) != -1) 
+    while ((opt = getopt (argc, argv, "u:c:t:m:a:hb")) != -1) 
     {
         switch (opt) 
         {
@@ -113,6 +115,9 @@ static void opciones (int argc, char * argv [], Opciones * op)
             case 'a':
                 if (optarg != NULL) 
                     opciones_alarma (op);
+                break;
+            case 'b':
+                op->accion = FALSE;
                 break;
             default: // también implica -h
                 ayuda();
@@ -155,7 +160,7 @@ static gboolean autenticar_notificar (Opciones const * const op)
         NotifyExtra extra = {
             .time = NOTIFY_EXPIRES_DEFAULT,
             .urgency = NOTIFY_URGENCY_CRITICAL,
-            .callback =  NOTIFY_ACTION_CALLBACK (accion_de_notificacion)
+            .callback = (op->accion) ? accion_de_notificacion : NULL
         };
 
         notify_wrap_show (op->titulo, op->mensaje, "gtk-dialog-warning", &extra);
@@ -206,6 +211,7 @@ int main (int argc, char * argv [])
         .clave    = "alumno",
         .mensaje  = "Por favor, debes cambiar la clave.",
         .titulo   = nombre_usuario,
+        .accion   = TRUE,
         .alarma   = (Alarma){ .tiempo = 0, .repetir = 1 } 
     };
 
