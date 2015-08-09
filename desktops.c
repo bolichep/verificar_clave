@@ -21,11 +21,11 @@
 
 Admin const admin_list (DesktopType type)
 {
-    Admin admins [NUM] = { 
-        (Admin){ XFCE     , "/usr/bin/mate-users-admin" },
-        (Admin){ MATE     , "/usr/bin/mate-users-admin" },
-        (Admin){ GNOME    , "/usr/bin/users-admin"      },
-        (Admin){ UKNOWN   , "/usr/bin/mate-users-admin" },
+    static Admin admins [NUM] = { 
+        { XFCE     , "/usr/bin/mate-users-admin" },
+        { MATE     , "/usr/bin/mate-users-admin" },
+        { GNOME    , "/usr/bin/users-admin"      },
+        { UKNOWN   , "/usr/bin/mate-users-admin" },
     };
 
     return admins [type];

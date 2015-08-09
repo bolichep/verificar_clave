@@ -133,19 +133,28 @@ static void opciones (int argc, char * argv [], Opciones * op)
 // MATE : mate-system-tools
 // GNOME: gnome-system-tools 
 // XFCE : mate-system-tools
-
 static void accion_de_notificacion (NotifyNotification * notify, char const * const action, gpointer data)
 {
-    GSubprocessLauncher * proc = g_subprocess_launcher_new (G_SUBPROCESS_FLAGS_NONE);
-    GError * error = NULL;
+    GSubprocessLauncher * proc = NULL;
+    
+    if (NULL == (proc = g_subprocess_launcher_new (G_SUBPROCESS_FLAGS_NONE)))
+    {
+        LOG ("Error al crear el ub-proceso.");
+        return;
+    }
 
+    GError * error = NULL;
+    GSubprocess * launcher = NULL;
     gchar const * const admin = desktop_admin (); 
 
-    if (NULL == g_subprocess_launcher_spawn (proc, &error, admin))
+    if (NULL == (launcher = g_subprocess_launcher_spawn (proc, &error, admin)))
     {
         LOG ("Error al ejecutar el sub-proceso %s", admin);
         g_error_free (error);
     }
+
+    g_clear_object (&launcher);
+    g_clear_object (&proc);
 }
 
 
