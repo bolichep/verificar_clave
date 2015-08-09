@@ -96,19 +96,19 @@ static void opciones (int argc, char * argv [], Opciones * op)
         {
             case 'u': 
                 if (optarg != NULL)
-                    op->usuario = strdup (optarg);
+                    op->usuario = g_strdup (optarg);
                 break;
             case 'c':
                 if (optarg != NULL)
-                    op->clave = strdup (optarg);
+                    op->clave = g_strdup (optarg);
                 break;
             case 'm':
                 if (optarg != NULL)
-                    op->mensaje = strdup (optarg);
+                    op->mensaje = g_strdup (optarg);
                 break;
             case 't':
                 if (optarg != NULL) 
-                    op->titulo = strdup (optarg);
+                    op->titulo = g_strdup (optarg);
                 break;
             case 'a':
                 if (optarg != NULL) 
@@ -173,7 +173,7 @@ static char * const nombre_usuario_actual ()
     uid_t const usuario_id = geteuid ();
     struct passwd const * const datos = getpwuid (usuario_id);
 
-    return strdup (datos->pw_name);
+    return g_strdup (datos->pw_name);
 }
 
 
