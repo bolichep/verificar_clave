@@ -128,8 +128,8 @@ static void opciones (int argc, char * argv [], Opciones * op)
 }
 
 
-static void accion_terminada (GObject *source_object,
-                        GAsyncResult *res,
+static void accion_terminada (GObject * object,
+                        GAsyncResult * res,
                         gpointer datos)
 {
 
