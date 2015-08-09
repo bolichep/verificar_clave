@@ -43,19 +43,15 @@ gchar const * const desktop_admin ()
 
     g_assert (current != NULL);
 
-    gchar const * desktop = g_strdup (current);
-
-    g_strfreev (env);
-
-    if (! g_strcmp0 (desktop, "MATE"))
+    if (! g_strcmp0 (current, "MATE"))
     {
         admin = admin_list (MATE).name;
     } 
-    else if (! g_strcmp0 (desktop, "XFCE"))
+    else if (! g_strcmp0 (current, "XFCE"))
     {
         admin = admin_list (XFCE).name;
     }
-    else if (! g_strcmp0 (desktop, "GNOME"))
+    else if (! g_strcmp0 (current, "GNOME"))
     {
         admin = admin_list (GNOME).name;
     }
@@ -64,8 +60,10 @@ gchar const * const desktop_admin ()
         admin = admin_list (UKNOWN).name;
     }
 
-    g_free (desktop);
+    g_strfreev (env);
+
     g_assert (admin != NULL);
+
     return admin;
 }
 /* vim: set ts=4 sw=4 tw=80 et :*/
