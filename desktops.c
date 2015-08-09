@@ -39,7 +39,7 @@ gchar const * const desktop_admin ()
 
     gchar ** env = g_get_environ ();
 
-    gchar const * current = g_environ_getenv (env, "XDG_CURRENT_DESKTOP");
+    gchar const * const current = g_environ_getenv (env, "XDG_CURRENT_DESKTOP");
 
     g_assert (current != NULL);
 

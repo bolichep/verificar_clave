@@ -147,7 +147,7 @@ static void accion_de_notificacion (NotifyNotification * notify, char const * co
     GSubprocess * launcher = NULL;
     gchar const * const admin = desktop_admin (); 
 
-    if (NULL == (launcher = g_subprocess_launcher_spawn (proc, &error, admin)))
+    if (NULL == (launcher = g_subprocess_launcher_spawn (proc, &error, admin, NULL)))
     {
         LOG ("Error al ejecutar el sub-proceso %s", admin);
         g_error_free (error);
