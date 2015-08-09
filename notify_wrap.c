@@ -135,4 +135,14 @@ void remove_ampersand (char * str)
         }
     }
 }
+
+
+gboolean notify_wrap_is_closed () 
+{
+    g_assert (notify_obj != NULL);
+
+    return -1 != notify_notification_get_closed_reason (notify_obj);
+}
+
+
 /* vim: set ts=4 sw=4 tw=80 et :*/

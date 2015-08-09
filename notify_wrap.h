@@ -38,8 +38,9 @@ void notify_wrap_show (char * summary,
         const char * const icon,
         NotifyExtra const * extra);
 
+gboolean notify_wrap_is_closed ();
 static int notify_wrap_init ();
-static void notify_wrap_end ();
+void notify_wrap_end ();
 static void remove_ampersand (char * str);
 static void extra_init ();
 static gboolean const support_actions ();

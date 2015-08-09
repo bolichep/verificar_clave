@@ -202,6 +202,7 @@ static gboolean autenticar_notificar (Opciones const * const op)
 
         notify_wrap_show (op->titulo, op->mensaje, "gtk-dialog-warning", &extra);
         
+
         return TRUE;
     }
 
@@ -223,13 +224,28 @@ static char * const nombre_usuario_actual ()
 static gpointer autenticar_notificar_thread (gpointer data)
 {
     Opciones const * const op = (Opciones const * const) data;
+    gboolean autenticado = FALSE;
 
     for (unsigned int i = 0; op->alarma.tiempo >= 0 && i <= op->alarma.repetir; ++i) 
     {
-        if ( TRUE == autenticar_notificar (op))
+        if ( TRUE == (autenticado = autenticar_notificar (op)))
         {
             sleep (op->alarma.tiempo);
         }
+    }
+
+    // dirty-hack,
+    // Antes de terminar, esperar a que la notificación se cierre.
+    // Esto evita el desfase entre el servidor de notificaciones y el
+    // programa.
+    for (; autenticado && ! notify_wrap_is_closed () ;)
+    {
+        sleep (1); //seg
+    }
+
+    if (autenticado) 
+    {
+        notify_wrap_end ();
     }
 
     g_main_loop_quit (main_loop);
