@@ -139,7 +139,7 @@ static void accion_de_notificacion (NotifyNotification * notify, char const * co
     
     if (NULL == (proc = g_subprocess_launcher_new (G_SUBPROCESS_FLAGS_NONE)))
     {
-        LOG ("Error al crear el ub-proceso.");
+        LOG ("Error al crear el sub-proceso.");
         return;
     }
 
