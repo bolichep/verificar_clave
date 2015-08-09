@@ -144,7 +144,7 @@ static void accion_de_notificacion (NotifyNotification * notify, char const * co
 
 
 
-static _Bool autenticar_notificar (Opciones const * const op)
+static gboolean autenticar_notificar (Opciones const * const op)
 {
     gchar * pass_cpy = g_strdup (op->clave);
 
