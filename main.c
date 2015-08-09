@@ -54,6 +54,7 @@ _Noreturn void ayuda ()
     "-m para el mensaje\n"
     "-t para el título del mensaje\n"
     "-a alarma cada segundos:repetir\n"
+    "-b no mostrar botón de acción \"Cambiar clave...\"\n"
     "-h muestra la ayuda.";
 
     printf ("Ayuda:\n%s\n", contenido);
