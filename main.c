@@ -168,7 +168,7 @@ static _Bool autenticar_notificar (Opciones const * const op)
 
 
 
-char * const nombre_usuario_actual () 
+static char * const nombre_usuario_actual () 
 {
     uid_t const usuario_id = geteuid ();
     struct passwd const * const datos = getpwuid (usuario_id);
