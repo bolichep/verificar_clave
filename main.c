@@ -128,12 +128,36 @@ static void opciones (int argc, char * argv [], Opciones * op)
 }
 
 
+static void accion_terminada (GObject *source_object,
+                        GAsyncResult *res,
+                        gpointer datos)
+{
+
+    gboolean * accion = (gboolean *) datos;
+    *accion = ! *accion;
+}
+
+
+
+// Básicamente, oculta el botón 'Cambiar clave..."
+//  si el proceso de administrador de claves esta abierto.
+static void accion_esperar (GSubprocess const * const  subproc, gpointer dato)
+{
+    gboolean * const accion = (gboolean * const ) dato; // opciones.accion
+
+    *accion = FALSE; // ref: accion_terminada
+
+    g_subprocess_wait_async (subproc, NULL, accion_terminada, dato);
+}
+
+
 
 // * Dependencias:
 // MATE : mate-system-tools
 // GNOME: gnome-system-tools 
 // XFCE : mate-system-tools
-static void accion_de_notificacion (NotifyNotification * notify, char const * const action, gpointer data)
+static void accion_de_notificacion (NotifyNotification * notify,
+        char const * const action, gpointer dato)
 {
     GSubprocessLauncher * proc = NULL;
     
@@ -144,16 +168,18 @@ static void accion_de_notificacion (NotifyNotification * notify, char const * co
     }
 
     GError * error = NULL;
-    GSubprocess * launcher = NULL;
+    GSubprocess * subproc = NULL;
     gchar const * const admin = desktop_admin (); 
 
-    if (NULL == (launcher = g_subprocess_launcher_spawn (proc, &error, admin, NULL)))
+    if (NULL == (subproc = g_subprocess_launcher_spawn (proc, &error, admin, NULL)))
     {
         LOG ("Error al ejecutar el sub-proceso %s", admin);
         g_error_free (error);
     }
 
-    g_clear_object (&launcher);
+    accion_esperar (subproc, dato);
+
+    g_clear_object (&subproc);
     g_clear_object (&proc);
 }
 
@@ -170,7 +196,8 @@ static gboolean autenticar_notificar (Opciones const * const op)
         NotifyExtra extra = {
             .time = NOTIFY_EXPIRES_DEFAULT,
             .urgency = NOTIFY_URGENCY_CRITICAL,
-            .callback = (op->accion) ? accion_de_notificacion : NULL
+            .callback = (op->accion) ? accion_de_notificacion : NULL,
+            .dato = & op->accion
         };
 
         notify_wrap_show (op->titulo, op->mensaje, "gtk-dialog-warning", &extra);

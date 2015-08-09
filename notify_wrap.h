@@ -29,6 +29,7 @@ typedef struct NotifyExtra {
     gint time;
     NotifyUrgency urgency;
     NotifyActionCallback callback;
+    gpointer dato; //extra de un extra :)
 } NotifyExtra;
 
 

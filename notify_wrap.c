@@ -40,13 +40,13 @@ void notify_wrap_show (char * summary,
             notify_uninit ();
             return;
         }
-
-        extra_init (extra);
     }
     else
     {
         notify_notification_update (notify_obj, summary, body, icon);
     }
+
+    extra_init (extra);
 
     GError * err = NULL;
     if (!notify_notification_show (notify_obj, &err))
@@ -63,6 +63,8 @@ void extra_init (NotifyExtra const * const extra)
     {
         return;
     }
+
+    notify_notification_clear_actions (notify_obj);
     notify_notification_set_timeout (notify_obj, extra->time);
     notify_notification_set_urgency (notify_obj, extra->urgency);
     
@@ -72,7 +74,7 @@ void extra_init (NotifyExtra const * const extra)
                 "open",
                 "Cambiar clave...",
                 extra->callback,
-                NULL,
+                extra->dato,
                 NULL);
     }
 }
