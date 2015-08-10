@@ -203,7 +203,6 @@ static gboolean autenticar_notificar (Opciones const * const op)
         };
 
         notify_wrap_show (op->titulo, op->mensaje, "gtk-dialog-warning", &extra);
-        
 
         return TRUE;
     }
