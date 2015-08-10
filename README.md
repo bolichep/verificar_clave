@@ -4,7 +4,10 @@ Verifica que la clave de un usuario en particular no esté siendo utilizada.
 En caso afirmativo, se informa mediante un mensaje al inicio de sesión,
 notificado en el escritorio.
 
-- Nota:
+<a href="http://www.zimagez.com/zimage/verificarclave-20.php" target="_blank" title=""><img src="http://www.zimagez.com/miniature/verificarclave-20.png" alt="" /></a>
+
+
+#### Usuario y clave:
 
 La clave por defecto es ```alumno```.
 
@@ -12,7 +15,12 @@ Se detecta automáticamente el nombre de usuario, por lo tanto, por defecto
 el nombre de usuario es de aquel que ejecute la aplicación y lo mismo para
 el titulo, esto evita el uso de $(whoami) en la línea de parámetros.
 
-<a href="http://www.zimagez.com/zimage/verificarclave-20.php" target="_blank" title=""><img src="http://www.zimagez.com/miniature/verificarclave-20.png" alt="" /></a>
+
+#### Botón "Cambiar clave..."
+
+Al realizar un click en el botón se intenta abrir el Administrador de Usuarios y
+Grupos, el cual dependera del escritorio actual (XFCE, MATE, etc).
+
 
 ### Uso:
 ```bash 
@@ -30,7 +38,7 @@ Soporta los siguientes parámetros para solapar los valores por defecto:
 
 ```-a``` para indicar la **alarma**, formato = segundos:repetir
 
-```-b``` **no** mostrar botón de acción, "Cambiar clave..."
+```-b``` **no** mostrar **botón** de acción, "Cambiar clave..."
 
 ```-h``` muestra un resumen de ayuda.
 
@@ -85,6 +93,11 @@ make install
 - GTK+-2.0
 - libpam
 - libnotify
+
+##### Administradores de claves:
+- MATE  : mate-system-tools (mate-users-admin)
+- XFCE  : mate-system-tools
+- GNOME : gnome-system-tools (users-admin)
 
 
 ### Archivo .desktop:
