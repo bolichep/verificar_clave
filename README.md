@@ -94,7 +94,7 @@ make install
 - libpam
 - libnotify
 
-##### Administradores de claves:
+##### Administradores de Usuarios y Grupos:
 - MATE  : mate-system-tools (mate-users-admin)
 - XFCE  : mate-system-tools
 - GNOME : gnome-system-tools (users-admin)
