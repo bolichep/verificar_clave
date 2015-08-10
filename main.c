@@ -175,6 +175,8 @@ static void accion_de_notificacion (NotifyNotification * notify,
     {
         LOG ("Error al ejecutar el sub-proceso %s", admin);
         g_error_free (error);
+        g_clear_object (&proc);
+        return;
     }
 
     accion_esperar (subproc, dato);
