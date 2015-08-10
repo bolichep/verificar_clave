@@ -19,7 +19,7 @@
 
 #include "desktops.h"
 
-Admin const admin_list (DesktopType type)
+Admin const * const admin_list (DesktopType type)
 {
     static Admin admins [NUM] = { 
         { XFCE     , "/usr/bin/mate-users-admin" },
@@ -28,7 +28,7 @@ Admin const admin_list (DesktopType type)
         { UKNOWN   , "/usr/bin/mate-users-admin" },
     };
 
-    return admins [type];
+    return & admins [type];
 }
 
 
@@ -45,19 +45,19 @@ gchar const * const desktop_admin ()
 
     if (! g_strcmp0 (current, "MATE"))
     {
-        admin = admin_list (MATE).name;
+        admin = admin_list (MATE)->name;
     } 
     else if (! g_strcmp0 (current, "XFCE"))
     {
-        admin = admin_list (XFCE).name;
+        admin = admin_list (XFCE)->name;
     }
     else if (! g_strcmp0 (current, "GNOME"))
     {
-        admin = admin_list (GNOME).name;
+        admin = admin_list (GNOME)->name;
     }
     else 
     {
-        admin = admin_list (UKNOWN).name;
+        admin = admin_list (UKNOWN)->name;
     }
 
     g_strfreev (env);

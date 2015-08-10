@@ -29,7 +29,7 @@ typedef struct Admin {
 } Admin;
 
 
-static Admin const admin_list (DesktopType type);
+static Admin const * const admin_list (DesktopType type);
 
 gchar const * const desktop_admin ();
 
