@@ -217,7 +217,11 @@ static char * const nombre_usuario_actual ()
     uid_t const usuario_id = geteuid ();
     struct passwd const * const datos = getpwuid (usuario_id);
 
-    return g_strdup (datos->pw_name);
+    gchar const * const nombre = g_strdup (datos->pw_name);
+
+    endpwent ();
+
+    return nombre;
 }
 
 
