@@ -30,5 +30,14 @@
     free (msg);                                     \
 }
 
+
+
+#define Comprobar(valor, ...) {                     \
+    if (! (valor)) {                                \
+        LOG(__VA_ARGS__);                           \
+        goto error;                                 \
+    }                                               \
+}
+
 #endif
 /* vim: set ts=4 sw=4 tw=80 et :*/
