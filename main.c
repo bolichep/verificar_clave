@@ -17,115 +17,17 @@
     along with verificar_clave.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <unistd.h>
-#include <pwd.h>
+//#include <unistd.h>
+//#include <pwd.h>
 
 #include "notify_wrap.h"
 #include "pam_auth.h"
 #include "desktops.h"
+#include "opciones.h"
 
-extern char * optarg;
 
 static GMainLoop * main_loop = NULL;
 
-// Simula alarm() con sleep()
-typedef struct Alarma {
-    int tiempo; // en segundos
-    int repetir;
-} Alarma;
-
-
-
-typedef struct Opciones {
-    char * usuario;
-    char * clave;
-    char * mensaje;
-    char * titulo;
-    gboolean accion; // mostrar botón 'Cambiar clave...'
-    Alarma alarma;
-} Opciones;
-
-
-_Noreturn void ayuda () 
-{
-    char const contenido [] = "Las opciones son:\n"
-    "-u para el usuario\n"
-    "-c para la clave\n"
-    "-m para el mensaje\n"
-    "-t para el título del mensaje\n"
-    "-a alarma cada segundos:repetir\n"
-    "-b no mostrar botón de acción \"Cambiar clave...\"\n"
-    "-h muestra la ayuda.";
-
-    printf ("Ayuda:\n%s\n", contenido);
-
-    exit(EXIT_SUCCESS);
-}
-
-
-static void opciones_alarma (Opciones * op) 
-{
-    char const * const delim = ":";
-
-    char * tok = strtok (optarg, delim);
-    if (tok != NULL)
-    {
-        op->alarma.tiempo = atoi (tok);
-    }
-
-    tok = strtok (NULL, delim);
-    if (tok != NULL)
-    {
-       int valor = atoi (tok);
-       op->alarma.repetir =  ( valor <= 0) ? 1 : valor;
-    }
-}
-
-// Soporta:
-// -u para usuario 
-// -c para clave
-// -m mensaje
-// -t titulo del mensaje
-// -a alarma
-// -h ayuda
-// -b sin botón "Cambiar clave..."
-static void opciones (int argc, char * argv [], Opciones * op)
-{
-    int opt = 0;
-
-    while ((opt = getopt (argc, argv, "u:c:t:m:a:hb")) != -1) 
-    {
-        switch (opt) 
-        {
-            case 'u': 
-                if (optarg != NULL)
-                    op->usuario = g_strdup (optarg);
-                break;
-            case 'c':
-                if (optarg != NULL)
-                    op->clave = g_strdup (optarg);
-                break;
-            case 'm':
-                if (optarg != NULL)
-                    op->mensaje = g_strdup (optarg);
-                break;
-            case 't':
-                if (optarg != NULL) 
-                    op->titulo = g_strdup (optarg);
-                break;
-            case 'a':
-                if (optarg != NULL) 
-                    opciones_alarma (op);
-                break;
-            case 'b':
-                op->accion = FALSE;
-                break;
-            default: // también implica -h
-                ayuda();
-                break;
-        }
-    }
-}
 
 
 static void accion_terminada (GObject * object,
