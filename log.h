@@ -31,11 +31,12 @@
 }
 
 
-
-#define Comprobar(valor, ...) {                     \
+// En caso que valor sea verdadero: se escribe el LOG
+// y se ejecuta la accion.
+#define Comprobar(valor, accion, ...) {             \
     if (! (valor)) {                                \
         LOG(__VA_ARGS__);                           \
-        goto error;                                 \
+        accion;                                     \
     }                                               \
 }
 

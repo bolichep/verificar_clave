@@ -61,19 +61,18 @@ static void accion_esperar (GSubprocess const * const  subproc, gpointer dato)
 static void accion_de_notificacion (NotifyNotification * notify,
         char const * const action, gpointer dato)
 {
-    GSubprocessLauncher * proc = NULL;
-    
-    if (NULL == (proc = g_subprocess_launcher_new (G_SUBPROCESS_FLAGS_NONE)))
-    {
-        LOG ("Error al crear el sub-proceso.");
-        return;
-    }
+    // Ámbito #1
+    GSubprocessLauncher * proc = g_subprocess_launcher_new (G_SUBPROCESS_FLAGS_NONE);
 
+    Comprobar (NULL != proc, return, "Error al crear instancia sub-proceso.");
+
+    // Ámbito #2
     GError * error = NULL;
     gchar const * const admin = desktop_admin (); 
     GSubprocess * subproc = g_subprocess_launcher_spawn (proc, &error, admin, NULL);
 
-    Comprobar (NULL != subproc, "Error al ejecutar el sub-proceso %s", admin);
+    Comprobar (NULL != subproc, goto error,
+            "Error al ejecutar el sub-proceso %s", admin);
 
     accion_esperar (subproc, dato);
 
@@ -179,13 +178,10 @@ int main (int argc, char * argv [])
 
     GThread * thread = g_thread_new (NULL, autenticar_notificar_thread, &op);
 
-    Comprobar (NULL != thread, "Fallo el inicio del thread");
+    Comprobar (NULL != thread, return EXIT_FAILURE, "Fallo el inicio del thread");
 
     main_loop = g_main_loop_new (NULL, FALSE);
 
     g_main_loop_run (main_loop);
-
-error:
-    return EXIT_FAILURE;
 }
 /* vim: set ts=4 sw=4 tw=80 et :*/

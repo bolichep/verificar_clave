@@ -23,6 +23,8 @@
 #include <libnotify/notify.h>
 #include <string.h> // strcmp
 
+#include "log.h"
+
 static NotifyNotification * notify_obj = NULL;
 
 typedef struct NotifyExtra {
