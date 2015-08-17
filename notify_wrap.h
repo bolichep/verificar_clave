@@ -21,6 +21,7 @@
 #define NOTIFY_WRAP_H
 
 #include <libnotify/notify.h>
+#include "log.h"
 
 static NotifyNotification * notify_obj = NULL;
 
@@ -35,9 +36,11 @@ void notify_wrap_show (char * summary,
         const char * const icon,
         NotifyExtra const * extra);
 
+gboolean notify_wrap_is_closed ();
 static int notify_wrap_init ();
 static void notify_wrap_end ();
 static void remove_ampersand (char * str);
+static void extra_init ();
 
 #endif 
 /* vim: set ts=4 sw=4 tw=80 et :*/

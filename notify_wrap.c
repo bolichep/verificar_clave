@@ -26,39 +26,55 @@ void notify_wrap_show (char * summary,
     remove_ampersand (summary);
     remove_ampersand (body);
 
-    if (0 == notify_wrap_init ())
-    {
-        return;
-    }
+    Comprobar ( 0 != notify_wrap_init (), return,
+            "Fallo en iniciar notify_wrap_init")
 
     if (notify_obj == NULL)
     {
         notify_obj = notify_notification_new (summary, body, icon);
+
+        // TODO: a confirmar posible bug: ¿ es g_object_unref safe si
+        // notify_obj ya es NULL ?
+        Comprobar ( NULL != notify_obj, goto error_notification_new,
+                "Fallo en crear nueva instancia de notify_notification_new");
     }
     else
     {
         notify_notification_update (notify_obj, summary, body, icon);
     }
 
-    if (NULL == notify_obj)
+    extra_init (extra);
+
+    GError * err = NULL;
+    gboolean const is_show = notify_notification_show (notify_obj, &err);
+
+    Comprobar (FALSE != is_show, goto error_notification_show,
+            "Fallo en mostrar la notificación");
+
+    return;
+
+error_notification_show:
+
+    g_error_free (err);
+
+error_notification_new:
+
+    notify_wrap_end();
+}
+
+
+
+void extra_init (NotifyExtra const * const extra)
+{
+    if (extra == NULL)
     {
-        notify_uninit ();
         return;
     }
 
-    if (extra != NULL)
-    {
-        notify_notification_set_timeout (notify_obj, extra->time);
-        notify_notification_set_urgency (notify_obj, extra->urgency);
-    }
-
-    GError * err = NULL;
-    if (!notify_notification_show (notify_obj, &err))
-    {
-        g_error_free (err);
-        notify_wrap_end ();
-    }
+    notify_notification_set_timeout (notify_obj, extra->time);
+    notify_notification_set_urgency (notify_obj, extra->urgency);
 }
+
 
 
 int notify_wrap_init ()
@@ -97,4 +113,15 @@ void remove_ampersand (char * str)
         }
     }
 }
+
+
+
+gboolean notify_wrap_is_closed () 
+{
+    g_assert (notify_obj != NULL);
+
+    return -1 != notify_notification_get_closed_reason (notify_obj);
+}
+
+
 /* vim: set ts=4 sw=4 tw=80 et :*/

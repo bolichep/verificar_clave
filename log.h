@@ -19,8 +19,25 @@
 
 #ifndef LOG_H
 #define LOG_H 
-#include <syslog.h>
-#define LOG(x) syslog (LOG_ERR, "#Func:%s #Line:%d #Msg:%s", __func__ , __LINE__ , (x));  
-#endif
 
+#include <syslog.h>
+
+#define LOG(...) {                                  \
+    char * msg = NULL;                              \
+    asprintf (&msg, __VA_ARGS__);                   \
+    syslog (LOG_ERR, "#Func:%s #Line:%d #Msg:%s",   \
+            __func__ , __LINE__ , msg);             \
+    free (msg);                                     \
+}
+
+
+// En caso que valor sea verdadero: se escribe el LOG
+// y se ejecuta la accion.
+#define Comprobar(valor, accion, ...) {             \
+    if (! (valor)) {                                \
+        LOG(__VA_ARGS__);                           \
+        accion;                                     \
+    }                                               \
+}
+#endif
 /* vim: set ts=4 sw=4 tw=80 et :*/
