@@ -18,9 +18,9 @@
 */
 #include "notify_wrap.h"
 
-void notify_wrap_show (char * summary, 
-        char * body, 
-        char const * const icon, 
+void notify_wrap_show (gchar const * summary,
+        gchar const * body,
+        gchar const * const icon,
         NotifyExtra const * extra)
 {
     remove_ampersand (summary);
@@ -135,15 +135,15 @@ void notify_wrap_end ()
 
 
 //This fix gtk &amp error
-void remove_ampersand (char * str)
+void remove_ampersand (gchar const * str)
 {
-    if (str != NULL)
+    g_assert (NULL != str);
+
+    gchar * find = NULL;
+
+    while (NULL != (find = g_strrstr (str, "&")))
     {
-        char * ptr = str;
-        while (*ptr++)
-        {
-            if (*ptr == '&') { *ptr = ' '; }
-        }
+        *find = ' ';
     }
 }
 

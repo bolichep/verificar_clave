@@ -35,15 +35,15 @@ typedef struct NotifyExtra {
 } NotifyExtra;
 
 
-void notify_wrap_show (char * summary, 
-        char * body,
-        const char * const icon,
+void notify_wrap_show (gchar const * summary,
+        gchar const * body,
+        gchar const * const icon,
         NotifyExtra const * extra);
 
 gboolean notify_wrap_is_closed ();
 static int notify_wrap_init ();
 void notify_wrap_end ();
-static void remove_ampersand (char * str);
+static void remove_ampersand (gchar const * str);
 static void extra_init ();
 static gboolean const support_actions ();
 #endif 
