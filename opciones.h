@@ -35,12 +35,19 @@ typedef struct Alarma {
 
 
 
+typedef struct Accion {
+    gboolean activo; // mostrar botón 'Cambiar clave...'
+    gchar * nombre;
+} Accion;
+
+
+
 typedef struct Opciones {
-    char * usuario;
-    char * clave;
-    char * mensaje;
-    char * titulo;
-    gboolean accion; // mostrar botón 'Cambiar clave...'
+    gchar * usuario;
+    gchar * clave;
+    gchar * mensaje;
+    gchar * titulo;
+    Accion accion;
     Alarma alarma;
 } Opciones;
 

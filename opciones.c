@@ -31,7 +31,7 @@ void opciones (int argc, char * argv [], Opciones * op)
 {
     int opt = 0;
 
-    while ((opt = getopt (argc, argv, "u:c:t:m:a:hb")) != -1) 
+    while ((opt = getopt (argc, argv, "u:c:t:m:a:p:hb")) != -1)
     {
         switch (opt) 
         {
@@ -56,7 +56,11 @@ void opciones (int argc, char * argv [], Opciones * op)
                     opciones_alarma (op);
                 break;
             case 'b':
-                op->accion = FALSE;
+                op->accion.activo = FALSE;
+                break;
+            case 'p':
+                if (optarg != NULL)
+                    op->accion.nombre = g_strdup (optarg);
                 break;
             default: // también implica -h
                 ayuda();

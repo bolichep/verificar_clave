@@ -35,8 +35,8 @@ static void accion_terminada (GObject * object,
                         gpointer datos)
 {
 
-    gboolean * accion = (gboolean *) datos;
-    *accion = ! *accion;
+    Accion * accion = (Accion *) datos;
+    accion->activo = ! accion->activo;
 }
 
 
@@ -45,9 +45,9 @@ static void accion_terminada (GObject * object,
 //  si el proceso de administrador de claves esta abierto.
 static void accion_esperar (GSubprocess const * const  subproc, gpointer dato)
 {
-    gboolean * const accion = (gboolean * const ) dato; // opciones.accion
+    Accion * const accion = (Accion * const ) dato; // opciones.accion
 
-    *accion = FALSE; // ref: accion_terminada
+    accion->activo = FALSE; // ref: accion_terminada
 
     g_subprocess_wait_async (subproc, NULL, accion_terminada, dato);
 }
@@ -68,7 +68,8 @@ static void accion_de_notificacion (NotifyNotification * notify,
 
     // Ámbito #2
     GError * error = NULL;
-    gchar const * const admin = desktop_admin (); 
+    Accion const * const accion = (Accion * const ) dato; // opciones.accion
+    gchar const * const admin = desktop_admin (accion);
     GSubprocess * subproc = g_subprocess_launcher_spawn (proc, &error, admin, NULL);
 
     Comprobar (NULL != subproc, goto error,
@@ -99,7 +100,7 @@ static gboolean autenticar_notificar (Opciones const * const op)
         NotifyExtra extra = {
             .time = NOTIFY_EXPIRES_DEFAULT,
             .urgency = NOTIFY_URGENCY_CRITICAL,
-            .callback = (op->accion) ? accion_de_notificacion : NULL,
+            .callback = (op->accion.activo) ? accion_de_notificacion : NULL,
             .dato = & op->accion
         };
 
@@ -170,7 +171,7 @@ int main (int argc, char * argv [])
         .clave    = "alumno",
         .mensaje  = "Por favor, debes cambiar la clave.",
         .titulo   = nombre_usuario,
-        .accion   = TRUE,
+        .accion   = (Accion){ .activo = TRUE, .nombre = NULL },
         .alarma   = (Alarma){ .tiempo = 0, .repetir = 1 } 
     };
 

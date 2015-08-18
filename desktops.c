@@ -33,9 +33,24 @@ Admin const * const admin_list (DesktopType type)
 
 
 
-gchar const * const desktop_admin ()
+gchar const * const desktop_admin (Accion const * const accion)
 {
-    gchar const * admin = NULL;
+    if (NULL == accion->nombre)
+    {
+        return desktop_from_env ();
+    }
+    else
+    {
+        return accion->nombre;
+    }
+}
+
+
+
+
+gchar const * const desktop_from_env ()
+{
+   gchar const * admin = NULL;
 
     gchar ** env = g_get_environ ();
 
@@ -65,5 +80,8 @@ gchar const * const desktop_admin ()
     g_assert (admin != NULL);
 
     return admin;
+
+
 }
+
 /* vim: set ts=4 sw=4 tw=80 et :*/

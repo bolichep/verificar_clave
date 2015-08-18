@@ -21,6 +21,8 @@
 
 #include <glib.h>
 
+#include "opciones.h"
+
 typedef enum { XFCE=0, MATE, GNOME, UKNOWN, NUM} DesktopType;
 
 typedef struct Admin {
@@ -31,7 +33,9 @@ typedef struct Admin {
 
 static Admin const * const admin_list (DesktopType type);
 
-gchar const * const desktop_admin ();
+static gchar const * const desktop_from_env ();
+
+gchar const * const desktop_admin (Accion const * const accion);
 
 #endif
 /* vim: set ts=4 sw=4 tw=80 et :*/
