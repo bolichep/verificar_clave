@@ -40,7 +40,7 @@ Soporta los siguientes parámetros para solapar los valores por defecto:
 
 ```-b``` **no** mostrar **botón** de acción, "Cambiar clave..."
 
-```-p``` nombre del *programa* para Administrar Claves y Grupos.
+```-p``` nombre del **programa** para Administrar Claves y Grupos.
         [Por defecto estos...](https://github.com/daltomi/verificar_clave#administradores-de-usuarios-y-grupos)
 
 ```-h``` muestra un resumen de ayuda.
