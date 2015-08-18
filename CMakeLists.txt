@@ -7,9 +7,9 @@ SET(APP verificar_clave)
 
 FILE(GLOB SOURCES "*.c" "*.h" )
 
-set( CMAKE_C_FLAGS_RELEASE "-DNDEBUG -std=c99 -Ofast -Wl,-s")
+set( CMAKE_C_FLAGS_RELEASE "-DNDEBUG -D_GNU_SOURCE -std=c99 -Ofast -Wl,-s")
 
-set( CMAKE_C_FLAGS_DEBUG "-DDEBUG -std=c99 -O0 -ggdb")
+set( CMAKE_C_FLAGS_DEBUG "-DDEBUG -D_GNU_SOURCE -std=c99 -O0 -ggdb")
 
 set( CMAKE_INSTALL_PREFIX "/usr")
 

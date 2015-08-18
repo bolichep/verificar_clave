@@ -20,10 +20,13 @@
 #ifndef OPCIONES_H
 #define OPCIONES_H
 
+#include <unistd.h> //getopt
 #include <stdlib.h> // exit
 #include <string.h> // strtok
 #include <pwd.h>    // getpwuid
 #include <glib.h>
+#include <glib/gprintf.h>
+
 
 extern char * optarg;
 

@@ -35,7 +35,7 @@ static void accion_terminada (GObject * object,
                         gpointer datos)
 {
 
-    Accion * accion = (Accion *) datos;
+    Accion * const accion = (Accion * const) datos;
     accion->activo = ! accion->activo;
 }
 
@@ -43,13 +43,12 @@ static void accion_terminada (GObject * object,
 
 // Básicamente, oculta el botón 'Cambiar clave..."
 //  si el proceso de administrador de claves esta abierto.
-static void accion_esperar (GSubprocess const * const  subproc, gpointer dato)
+static void accion_esperar (GSubprocess * subproc,
+        Accion * const accion)
 {
-    Accion * const accion = (Accion * const ) dato; // opciones.accion
-
     accion->activo = FALSE; // ref: accion_terminada
 
-    g_subprocess_wait_async (subproc, NULL, accion_terminada, dato);
+    g_subprocess_wait_async (subproc, NULL, accion_terminada, accion);
 }
 
 
@@ -59,7 +58,7 @@ static void accion_esperar (GSubprocess const * const  subproc, gpointer dato)
 // GNOME: gnome-system-tools 
 // XFCE : mate-system-tools
 static void accion_de_notificacion (NotifyNotification * notify,
-        char const * const action, gpointer dato)
+        gchar const * const action, gpointer dato)
 {
     // Ámbito #1
     GSubprocessLauncher * proc = g_subprocess_launcher_new (G_SUBPROCESS_FLAGS_NONE);
@@ -68,14 +67,14 @@ static void accion_de_notificacion (NotifyNotification * notify,
 
     // Ámbito #2
     GError * error = NULL;
-    Accion const * const accion = (Accion * const ) dato; // opciones.accion
+    Accion const * const accion = (Accion const * const ) dato; // opciones.accion
     gchar const * const admin = desktop_admin (accion);
     GSubprocess * subproc = g_subprocess_launcher_spawn (proc, &error, admin, NULL);
 
     Comprobar (NULL != subproc, goto error,
             "Error al ejecutar el sub-proceso %s", admin);
 
-    accion_esperar (subproc, dato);
+    accion_esperar (subproc, (Accion * const) accion);
 
     g_clear_object (&subproc);
     g_clear_object (&proc);
@@ -114,7 +113,7 @@ static gboolean autenticar_notificar (Opciones const * const op)
 
 
 
-static char * const nombre_usuario_actual () 
+static gchar const * const nombre_usuario_actual ()
 {
     uid_t const usuario_id = geteuid ();
     struct passwd const * const datos = getpwuid (usuario_id);
@@ -164,7 +163,7 @@ static gpointer autenticar_notificar_thread (gpointer data)
 
 int main (int argc, char * argv []) 
 {
-    char * const nombre_usuario = nombre_usuario_actual ();
+    gchar const * const nombre_usuario = nombre_usuario_actual ();
 
     Opciones op = {
         .usuario  = nombre_usuario,

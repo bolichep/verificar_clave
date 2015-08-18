@@ -21,6 +21,7 @@
 #define LOG_H 
 
 #include <syslog.h>
+#include <stdlib.h> //free
 
 #define LOG(...) {                                  \
     char * msg = NULL;                              \

@@ -102,7 +102,7 @@ _Noreturn void ayuda ()
     "-b no mostrar botón de acción \"Cambiar clave...\"\n"
     "-h muestra la ayuda.";
 
-    printf ("Ayuda:\n%s\n", contenido);
+    g_printf ("Ayuda:\n%s\n", contenido);
 
     exit(EXIT_SUCCESS);
 }
