@@ -100,6 +100,7 @@ _Noreturn void ayuda ()
     "-t para el título del mensaje\n"
     "-a alarma cada segundos:repetir\n"
     "-b no mostrar botón de acción \"Cambiar clave...\"\n"
+    "-p nombre del programa para Administrar Claves y Grupos.\n"
     "-h muestra la ayuda.";
 
     g_printf ("Ayuda:\n%s\n", contenido);
