@@ -39,12 +39,9 @@ gchar const * const desktop_admin (Accion const * const accion)
     {
         return desktop_from_env ();
     }
-    else
-    {
-        return accion->nombre;
-    }
+  
+    return accion->nombre;
 }
-
 
 
 
@@ -80,8 +77,6 @@ gchar const * const desktop_from_env ()
     g_assert (admin != NULL);
 
     return admin;
-
-
 }
 
 /* vim: set ts=4 sw=4 tw=80 et :*/
