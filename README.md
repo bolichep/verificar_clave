@@ -115,8 +115,9 @@ Por ejemplo, para la contraseña ```Yu%?``` debera utilizar la secuencia de
 escape, asi: ```Yu\%\?```
 
 En los mensajes (-m), para los saltos de líneas, utilice directamente la secuencia:
+```
 -m "Inicio del mensaje\nOtra línea"
-
+```
 
 
 ### Nota para administradores.
