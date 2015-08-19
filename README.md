@@ -33,6 +33,10 @@ Soporta los siguientes parámetros para solapar los valores por defecto:
 ```-c``` para indicar la **clave** de usuario.
 
 ```-m``` para indicar el **mensaje** informativo.
+        
+        Nota: para los saltos de líneas utilice el siguiente modo:
+        -m "Inicio del mensaje"\n"Otra línea"
+
 
 ```-t``` para indicar el **titulo** del mensaje (generalmente de mayor tamaño y en negritas).
 
@@ -109,6 +113,10 @@ Si la contraseña de usuario tiene caracteres espciales(#%?...) utilice la
 secuencia de escape: ```\```.
 Por ejemplo, para la contraseña ```Yu%?``` debera utilizar la secuencia de
 escape, asi: ```Yu\%\?```
+
+En los mensajes (-m), para los saltos de líneas, utilice directamente la secuencia:
+-m "Inicio del mensaje\nOtra línea"
+
 
 
 ### Nota para administradores.
