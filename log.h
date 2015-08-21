@@ -25,7 +25,7 @@
 
 #define LOG(...) {                                  \
     char * msg = NULL;                              \
-    asprintf (&msg, __VA_ARGS__);                   \
+    asprintf (&msg, "%s", __VA_ARGS__);             \
     syslog (LOG_ERR, "#Func:%s #Line:%d #Msg:%s",   \
             __func__ , __LINE__ , msg);             \
     free (msg);                                     \
